@@ -12,6 +12,11 @@ const appState = {
 
 // Navigation
 function showPage(pageName) {
+    // Son de navigation
+    if (window.audioManager) {
+        window.audioManager.playNavigation();
+    }
+    
     // Cacher toutes les pages
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
@@ -67,6 +72,11 @@ async function loadUserData() {
 
 // Modal de connexion
 function showLoginModal() {
+    // Son d'ouverture de modal
+    if (window.audioManager) {
+        window.audioManager.playModalOpen();
+    }
+    
     const modal = document.getElementById('loginModal');
     modal.classList.add('active');
     
@@ -78,6 +88,11 @@ function showLoginModal() {
 }
 
 function hideLoginModal() {
+    // Son de fermeture de modal
+    if (window.audioManager) {
+        window.audioManager.playModalClose();
+    }
+    
     document.getElementById('loginModal').classList.remove('active');
 }
 
@@ -103,32 +118,78 @@ async function loadLessons() {
             modules[lesson.module].push(lesson);
         });
 
-        let html = '';
-        for (const [moduleName, lessons] of Object.entries(modules)) {
-            html += `<div class="module-section" style="grid-column: 1/-1;">
-                <h2>${moduleName}</h2>
-            </div>`;
-            
-            lessons.forEach(lesson => {
-                const statusClass = lesson.status.replace('_', '-');
-                const statusLabel = {
-                    'not_started': 'Pas commencé',
-                    'seen': 'En cours',
-                    'completed': 'Terminé'
-                }[lesson.status] || 'Pas commencé';
+        // Définir l'ordre des modules (Les Bases en premier)
+        const moduleOrder = [
+            'Les Bases',
+            'Contrôle de Flux', 
+            'Structures de Données',
+            'Programmation Modulaire',
+            'Programmation Avancée'
+        ];
 
-                html += `
-                    <div class="lesson-card" onclick="loadLesson(${lesson.id})">
-                        <div class="lesson-module">${lesson.module}</div>
-                        <h3>${lesson.title}</h3>
-                        <div class="lesson-meta">
-                            <span><i class="fas fa-tasks"></i> ${lesson.exercise_count} exercice(s)</span>
-                            <span class="lesson-status ${statusClass}">${statusLabel}</span>
+        let html = '';
+        
+        // Afficher les modules dans l'ordre défini
+        moduleOrder.forEach(moduleName => {
+            if (modules[moduleName]) {
+                const lessons = modules[moduleName];
+                
+                html += `<div class="module-section" style="grid-column: 1/-1;">
+                    <h2>${moduleName}</h2>
+                </div>`;
+                
+                lessons.forEach(lesson => {
+                    const statusClass = lesson.status.replace('_', '-');
+                    const statusLabel = {
+                        'not_started': 'Pas commencé',
+                        'seen': 'En cours',
+                        'completed': 'Terminé'
+                    }[lesson.status] || 'Pas commencé';
+
+                    html += `
+                        <div class="lesson-card" onclick="loadLesson(${lesson.id})">
+                            <div class="lesson-module">${lesson.module}</div>
+                            <h3>${lesson.title}</h3>
+                            <div class="lesson-meta">
+                                <span><i class="fas fa-tasks"></i> ${lesson.exercise_count} exercice(s)</span>
+                                <span class="lesson-status ${statusClass}">${statusLabel}</span>
+                            </div>
                         </div>
-                    </div>
-                `;
-            });
-        }
+                    `;
+                });
+            }
+        });
+        
+        // Afficher les modules non listés (au cas où il y en aurait)
+        Object.keys(modules).forEach(moduleName => {
+            if (!moduleOrder.includes(moduleName)) {
+                const lessons = modules[moduleName];
+                
+                html += `<div class="module-section" style="grid-column: 1/-1;">
+                    <h2>${moduleName}</h2>
+                </div>`;
+                
+                lessons.forEach(lesson => {
+                    const statusClass = lesson.status.replace('_', '-');
+                    const statusLabel = {
+                        'not_started': 'Pas commencé',
+                        'seen': 'En cours',
+                        'completed': 'Terminé'
+                    }[lesson.status] || 'Pas commencé';
+
+                    html += `
+                        <div class="lesson-card" onclick="loadLesson(${lesson.id})">
+                            <div class="lesson-module">${lesson.module}</div>
+                            <h3>${lesson.title}</h3>
+                            <div class="lesson-meta">
+                                <span><i class="fas fa-tasks"></i> ${lesson.exercise_count} exercice(s)</span>
+                                <span class="lesson-status ${statusClass}">${statusLabel}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        });
 
         container.innerHTML = html;
 
@@ -186,6 +247,9 @@ async function loadLesson(lessonId) {
 async function loadExercise(exerciseId) {
     showPage('exercise');
     
+    // Démarrer le timer pour l'exercice
+    window.exerciseStartTime = Date.now();
+    
     document.getElementById('exerciseTitle').textContent = 'Chargement...';
     document.getElementById('exercisePrompt').innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i></div>';
 
@@ -220,10 +284,20 @@ async function runCode() {
     const code = editor.getValue();
     const consoleOutput = document.getElementById('consoleOutput');
 
+    // Son de chargement
+    if (window.audioManager) {
+        window.audioManager.playLoading();
+    }
+
     consoleOutput.innerHTML = '<div class="console-line"><i class="fas fa-spinner fa-spin"></i> Exécution...</div>';
 
     try {
         const result = await pythonRunner.runCode(code);
+        
+        // Son d'exécution du code
+        if (window.audioManager) {
+            window.audioManager.playCodeRun();
+        }
 
         let output = '';
         if (result.success) {
@@ -269,6 +343,15 @@ async function submitCode() {
             const statusClass = result.passed ? 'passed' : 'failed';
             const icon = result.passed ? 'fa-check-circle' : 'fa-times-circle';
 
+            // Son pour chaque test
+            if (window.audioManager) {
+                if (result.passed) {
+                    window.audioManager.playTestPass();
+                } else {
+                    window.audioManager.playTestFail();
+                }
+            }
+
             html += `
                 <div class="test-item ${statusClass}">
                     <i class="fas ${icon}"></i>
@@ -303,8 +386,19 @@ async function submitCode() {
                 );
 
                 if (testResults.passed) {
+                    // Son de victoire
+                    if (window.audioManager) {
+                        window.audioManager.playVictory();
+                    }
+                    
+                    // Points et gaming
+                    if (window.gamingSystem) {
+                        const timeSpent = Date.now() - (window.exerciseStartTime || Date.now());
+                        window.gamingSystem.completeExercise(appState.currentExercise.id, timeSpent);
+                    }
+                    
                     testsOutput.innerHTML = `
-                        <div class="success-message">
+                        <div class="success-message success-animation">
                             <i class="fas fa-trophy"></i>
                             <p>Bravo ! Tous les tests sont passés !</p>
                             <p>${response.message}</p>
@@ -472,6 +566,127 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+// Initialiser les effets sonores sur les éléments
+function initializeAudioEffects() {
+    if (!window.audioManager) return;
+    
+    // Sons sur les boutons
+    document.querySelectorAll('button').forEach(btn => {
+        window.audioManager.addSoundToElement(btn, 'click');
+    });
+    
+    // Sons sur les liens de navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
+        window.audioManager.addSoundToElement(link, 'navigation');
+    });
+    
+    // Sons sur les cartes de leçons
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.lesson-card')) {
+            window.audioManager.playClick();
+        }
+        if (e.target.closest('.exercise-item')) {
+            window.audioManager.playClick();
+        }
+    });
+    
+    // Sons sur les boutons d'exercice
+    const runBtn = document.getElementById('runCode');
+    const submitBtn = document.getElementById('submitCode');
+    
+    if (runBtn) {
+        runBtn.addEventListener('click', () => {
+            window.audioManager.playCodeRun();
+        });
+    }
+    
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            window.audioManager.playValidation();
+        });
+    }
+    
+    // Sons sur les onglets
+    document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.addEventListener('click', () => {
+            window.audioManager.playClick();
+        });
+    });
+    
+    // Sons sur les formulaires admin
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', () => {
+            window.audioManager.playSuccess();
+        });
+    });
+}
+
+// Initialiser la sauvegarde automatique
+function initializeAutoSave() {
+    // Sauvegarde auto toutes les 30 secondes
+    setInterval(() => {
+        const editor = getEditor();
+        if (editor && appState.currentExercise) {
+            const code = editor.getValue();
+            localStorage.setItem(`auto_save_${appState.currentExercise.id}`, code);
+            
+            // Son de sauvegarde
+            if (window.audioManager) {
+                window.audioManager.playSave();
+            }
+        }
+    }, 30000);
+    
+    // Sauvegarde lors des changements (debounced)
+    let saveTimeout;
+    const originalLoadExercise = loadExercise;
+    loadExercise = async function(exerciseId) {
+        await originalLoadExercise(exerciseId);
+        
+        // Charger la sauvegarde auto si elle existe
+        const savedCode = localStorage.getItem(`auto_save_${exerciseId}`);
+        if (savedCode) {
+            const editor = getEditor();
+            if (editor) {
+                editor.setValue(savedCode);
+                
+                // Son de chargement
+                if (window.audioManager) {
+                    window.audioManager.playLoad();
+                }
+            }
+        }
+        
+        // Sauvegarde lors des modifications
+        const editor = getEditor();
+        if (editor) {
+            editor.onDidChangeModelContent(() => {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    const code = editor.getValue();
+                    localStorage.setItem(`auto_save_${exerciseId}`, code);
+                    
+                    // Son de sauvegarde silencieux
+                    if (window.audioManager) {
+                        window.audioManager.playSave();
+                    }
+                }, 2000); // Sauvegarde après 2 secondes d'inactivité
+            });
+            
+            // Son de frappe (avec throttling)
+            let typingTimeout;
+            editor.onDidChangeModelContent(() => {
+                clearTimeout(typingTimeout);
+                typingTimeout = setTimeout(() => {
+                    if (window.audioManager) {
+                        window.audioManager.playTyping();
+                    }
+                }, 100);
+            });
+        }
+    };
+}
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Navigation
@@ -497,6 +712,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loginFromProfile').addEventListener('click', showLoginModal);
     
     document.getElementById('logoutBtn').addEventListener('click', () => {
+        // Son de déconnexion
+        if (window.audioManager) {
+            window.audioManager.playLogout();
+        }
+        
         api.logout();
         updateAuthUI();
         showPage('home');
@@ -524,6 +744,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             await api.verifyToken(token);
+            
+            // Son de connexion réussie
+            if (window.audioManager) {
+                window.audioManager.playLogin();
+            }
+            
             document.getElementById('loginStep2').style.display = 'none';
             document.getElementById('loginSuccess').style.display = 'block';
             
@@ -532,6 +758,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateAuthUI();
             }, 1500);
         } catch (error) {
+            // Son d'erreur
+            if (window.audioManager) {
+                window.audioManager.playError();
+            }
             alert('Erreur: ' + error.message);
         }
     });
@@ -589,6 +819,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialisation
     updateAuthUI();
+    
+    // Initialiser les sons sur les éléments
+    initializeAudioEffects();
+    
+    // Initialiser la sauvegarde auto
+    initializeAutoSave();
     
     // Router simple
     const hash = window.location.hash.slice(1);

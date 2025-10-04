@@ -5,11 +5,11 @@ echo ====================================
 echo.
 
 echo [1/3] Installation des dependances...
-pip install -r requirements.txt
+py -m pip install -r requirements.txt
 
 echo.
 echo [2/3] Initialisation de la base de donnees...
-python backend/init_db.py
+py backend/init_db.py
 
 echo.
 echo [3/3] Demarrage du serveur...
@@ -20,6 +20,6 @@ echo Documentation API: http://localhost:8000/docs
 echo.
 
 start http://localhost:3000
-start python -m http.server 3000 --directory frontend
-python backend/main.py
+start py -m http.server 3000 --directory frontend
+py backend/main.py
 
