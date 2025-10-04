@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍 PythonTaMère - Code Python Comme un Boss!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/markdown-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Style pour le sélecteur de langue */
+        #langSelect {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid var(--python-yellow);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            margin-left: 1rem;
+        }
+        #langSelect:hover {
+            background: var(--python-yellow);
+            color: var(--python-blue);
+            transform: scale(1.05);
+        }
+        #langSelect option {
+            background: var(--python-blue);
+            color: white;
+            font-weight: 700;
+        }
+        
+        /* About Section Styles */
+        .about-creator {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 30px;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: var(--shadow-lg);
+            border: 5px solid var(--python-yellow);
+            position: relative;
+            overflow: hidden;
+        }
+        .about-creator::before {
+            content: '🐍💊🩺🤖';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+        }
+        .creator-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .creator-avatar {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 1rem;
+            border: 5px solid var(--python-yellow);
+            animation: bounce 2s infinite;
+        }
+        .creator-name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--python-blue), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .creator-title {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+        .creator-bio {
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin: 2rem 0;
+        }
+        .creator-skills {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .skill-badge {
+            background: linear-gradient(135deg, var(--primary), var(--danger));
+            color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        .skill-badge:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+        .skill-badge i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span style="font-size: 1.5rem; margin-right: 0.3rem;">🐍👵</span>
+                <span>PythonTaMère</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active" data-page="home">
+                    <i class="fas fa-home"></i> <span data-i18n="nav_home">Home</span>
+                </a>
+                <a href="#lessons" class="nav-link" data-page="lessons">
+                    <i class="fas fa-fire"></i> <span data-i18n="nav_lessons">Leçons</span>
+                </a>
+                <a href="#about" class="nav-link" data-page="about">
+                    <i class="fas fa-user-astronaut"></i> <span>About</span>
+                </a>
+                <a href="#profile" class="nav-link" data-page="profile">
+                    <i class="fas fa-trophy"></i> <span data-i18n="nav_profile">Profil</span>
+                </a>
+                <a href="#admin" class="nav-link" id="adminLink" data-page="admin" style="display: none;">
+                    <i class="fas fa-cog"></i> <span data-i18n="nav_admin">Admin</span>
+                </a>
+                
+                <!-- Sélecteur de langue 🌍 -->
+                <select id="langSelect">
+                    <option value="fr">🇫🇷 FR</option>
+                    <option value="en">🇬🇧 EN</option>
+                </select>
+                
+                <div class="nav-auth">
+                    <button id="loginBtn" class="btn btn-outline">
+                        <i class="fas fa-rocket"></i> <span data-i18n="nav_login">GO!</span>
+                    </button>
+                    <button id="logoutBtn" class="btn btn-outline" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> <span data-i18n="nav_logout">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="app">
+        <!-- Page: Home -->
+        <div id="page-home" class="page active">
+            <section class="hero">
+                <div class="container">
+                    <h1 data-i18n="hero_title">🐍 Python Ta Mère! 💥</h1>
+                    <p class="lead" data-i18n="hero_subtitle">Code Python comme un WARRIOR! Zéro install, feedback instantané, résultats qui claquent! 🔥</p>
+                    <div class="hero-actions">
+                        <a href="#lessons" class="btn btn-primary btn-lg" data-page="lessons">
+                            <i class="fas fa-rocket"></i> <span data-i18n="hero_start">LET'S GO! 🚀</span>
+                        </a>
+                        <a href="#about" class="btn btn-outline btn-lg" data-page="about">
+                            <i class="fas fa-user-astronaut"></i> <span>About</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="container">
+                    <h2 data-i18n="features_title">Pourquoi PythonTaMère Déchire Tout? 💪</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-bolt"></i>
+                            <h3 data-i18n="feature_fast_title">⚡ Ultra Rapide</h3>
+                            <p data-i18n="feature_fast_desc">Code exécuté DIRECT dans ton navigateur. Zéro installation, zéro galère!</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-check-circle"></i>
+                            <h3 data-i18n="feature_feedback_title">✅ Feedback Instant</h3>
+                            <p data-i18n="feature_feedback_desc">Tests auto qui te disent si t'as tout pété ou si faut retry!</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h3 data-i18n="feature_progress_title">📈 Track ta Prog</h3>
+                            <p data-i18n="feature_progress_desc">Suis ton évolution et deviens un Python Master!</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-gamepad"></i>
+                            <h3 data-i18n="feature_gaming_title">🎮 Style Gaming</h3>
+                            <p data-i18n="feature_gaming_desc">Apprends en t'amusant comme si tu jouais à un jeu!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Page: About -->
+        <div id="page-about" class="page">
+            <div class="container">
+                <div class="about-creator">
+                    <div class="creator-header">
+                        <div class="creator-avatar">👨‍⚕️🐍</div>
+                        <h1 class="creator-name">Abdel ATIA</h1>
+                        <p class="creator-title">🩺 1/2 Véto • 💊 1/2 Pharmacien • 🤖 100% Passionné!</p>
+                    </div>
+                    
+                    <div class="creator-bio">
+                        <p style="font-weight: 700; color: var(--primary); font-size: 1.3rem; margin-bottom: 1rem;">
+                            "Python et l'IA, c'est comme la médecine: <br>ça soigne tous les bugs!" 💉🐍
+                        </p>
+                        <p style="font-weight: 600; line-height: 1.8;">
+                            Yo! Moi c'est <strong>Abdel</strong>, un mix explosif entre un véto qui soigne les animaux 🐕 
+                            et un pharmacien qui concocte des potions 💊... Mais ma vraie passion ? 
+                            <strong style="color: var(--primary);">Coder en Python et jouer avec l'IA!</strong> 🤖
+                        </p>
+                        <p style="font-weight: 600; margin-top: 1rem;">
+                            J'ai créé <strong style="color: var(--python-blue);">PythonTaMère</strong> parce que j'en avais marre 
+                            des tutos ennuyeux! Ici, on code, on s'amuse, et on devient des warriors du Python! 🚀
+                        </p>
+                        <p style="font-weight: 700; color: var(--secondary); margin-top: 1rem; font-size: 1.2rem;">
+                            "Si je peux passer de soigner des chats à coder de l'IA, <br>TOI aussi tu peux apprendre Python!" 😎
+                        </p>
+                    </div>
+                    
+                    <div class="creator-skills">
+                        <div class="skill-badge" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            <i class="fas fa-stethoscope"></i>
+                            Véto de ouf
+                        </div>
+                        <div class="skill-badge" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                            <i class="fas fa-pills"></i>
+                            Pharmacien stylé
+                        </div>
+                        <div class="skill-badge" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                            <i class="fab fa-python"></i>
+                            Python Master
+                        </div>
+                        <div class="skill-badge" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                            <i class="fas fa-robot"></i>
+                            IA Enthusiast
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 3px solid var(--python-yellow);">
+                        <p style="font-size: 1.5rem; font-weight: 900; color: var(--primary);">
+                            🚀 Let's Code Together! 🐍
+                        </p>
+                        <p style="font-weight: 600; margin-top: 0.5rem;">
+                            Rejoins la communauté et deviens un Python Warrior! 💪
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Lessons -->
+        <div id="page-lessons" class="page">
+            <div class="container">
+                <h1 style="color: white; font-weight: 900;" data-i18n="lessons_title">🔥 Mes Leçons Python 🐍</h1>
+                <div id="lessonsContainer" class="lessons-grid">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> 
+                        <p data-i18n="lessons_loading">Python se réveille...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Lesson Detail -->
+        <div id="page-lesson-detail" class="page">
+            <div class="container">
+                <button class="btn btn-link" id="backToLessons" style="color: white; font-weight: 800;">
+                    <i class="fas fa-arrow-left"></i> <span data-i18n="lesson_back">Retour aux leçons</span>
+                </button>
+                <div id="lessonContent" style="background: rgba(255,255,255,0.95); padding: 2.5rem; border-radius: 20px; margin-top: 1rem; box-shadow: var(--shadow-lg); border: 3px solid var(--python-yellow);"></div>
+            </div>
+        </div>
+
+        <!-- Page: Exercise -->
+        <div id="page-exercise" class="page">
+            <div class="exercise-layout">
+                <div class="exercise-sidebar">
+                    <button class="btn btn-link" id="backToLesson">
+                        <i class="fas fa-arrow-left"></i> <span data-i18n="exercise_back">Retour</span>
+                    </button>
+                    <div id="exercisePrompt" class="exercise-prompt"></div>
+                </div>
+                <div class="exercise-workspace">
+                    <div class="workspace-header">
+                        <h3 id="exerciseTitle"><span data-i18n="exercise_title">💻 Exercice</span></h3>
+                        <div class="workspace-actions">
+                            <button class="btn btn-secondary" id="runCode">
+                                <i class="fas fa-play"></i> <span data-i18n="exercise_run">RUN</span>
+                            </button>
+                            <button class="btn btn-primary" id="submitCode">
+                                <i class="fas fa-fire"></i> <span data-i18n="exercise_submit">GO!</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="editor" class="code-editor"></div>
+                    <div class="output-panel">
+                        <div class="output-tabs">
+                            <button class="tab-btn active" data-tab="console">
+                                <i class="fas fa-terminal"></i> <span data-i18n="exercise_console">Console</span>
+                            </button>
+                            <button class="tab-btn" data-tab="tests">
+                                <i class="fas fa-vial"></i> <span data-i18n="exercise_tests">Tests</span>
+                            </button>
+                        </div>
+                        <div class="tab-content active" id="tab-console">
+                            <div id="consoleOutput" class="console"></div>
+                        </div>
+                        <div class="tab-content" id="tab-tests">
+                            <div id="testsOutput" class="tests-panel"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Profile -->
+        <div id="page-profile" class="page">
+            <div class="container">
+                <h1 style="color: white; font-weight: 900;" data-i18n="profile_title">🏆 Mon Profil de Warrior</h1>
+                <div id="profileContent">
+                    <div class="profile-guest">
+                        <i class="fas fa-user-ninja"></i>
+                        <p style="font-size: 1.25rem; font-weight: 700;" data-i18n="profile_guest">T'es pas encore connecté!</p>
+                        <button class="btn btn-primary" id="loginFromProfile">
+                            <i class="fas fa-rocket"></i> <span data-i18n="profile_login">Connexion pour sauver ta prog!</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Admin -->
+        <div id="page-admin" class="page">
+            <div class="container">
+                <h1 style="color: white; font-weight: 900;"><i class="fas fa-cog"></i> <span data-i18n="admin_title">Admin Zone 🔧</span></h1>
+                
+                <div class="admin-section">
+                    <h2 data-i18n="admin_lesson_create">Créer une Leçon</h2>
+                    <form id="createLessonForm" class="admin-form">
+                        <div class="form-group">
+                            <label>Slug (identifiant unique)</label>
+                            <input type="text" name="slug" class="input" placeholder="python-basics" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Titre</label>
+                            <input type="text" name="title" class="input" placeholder="Les Bases de Python" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Module</label>
+                            <input type="text" name="module" class="input" placeholder="Bases" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ordre</label>
+                            <input type="number" name="order" class="input" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contenu (Markdown)</label>
+                            <textarea name="body_md" class="input textarea" rows="10" placeholder="# Titre\n\nContenu en Markdown..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Créer la Leçon
+                        </button>
+                    </form>
+                </div>
+
+                <div class="admin-section">
+                    <h2 data-i18n="admin_exercise_create">Créer un Exercice</h2>
+                    <form id="createExerciseForm" class="admin-form">
+                        <div class="form-group">
+                            <label>Leçon</label>
+                            <select name="lesson_id" class="input" id="lessonSelect" required>
+                                <option value="">-- Sélectionner une leçon --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Titre</label>
+                            <input type="text" name="title" class="input" placeholder="Hello World" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Difficulté (1-5)</label>
+                            <input type="number" name="difficulty" class="input" min="1" max="5" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ordre</label>
+                            <input type="number" name="order" class="input" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Énoncé (Markdown)</label>
+                            <textarea name="prompt_md" class="input textarea" rows="6" placeholder="## Objectif\n\nFaites ceci..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Code de départ</label>
+                            <textarea name="starter_code" class="input textarea" rows="4" placeholder="# Votre code ici\n"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Solution (optionnel)</label>
+                            <textarea name="solution" class="input textarea" rows="4" placeholder="print('Hello, World!')"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Créer l'Exercice
+                        </button>
+                    </form>
+                </div>
+
+                <div class="admin-section">
+                    <h2 data-i18n="admin_test_create">Créer un Test</h2>
+                    <form id="createTestForm" class="admin-form">
+                        <div class="form-group">
+                            <label>Exercice</label>
+                            <select name="exercise_id" class="input" id="exerciseSelect" required>
+                                <option value="">-- Sélectionner un exercice --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nom du test</label>
+                            <input type="text" name="name" class="input" placeholder="Test basique" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Visibilité</label>
+                            <select name="visibility" class="input" required>
+                                <option value="public">Public (visible par l'élève)</option>
+                                <option value="hidden">Caché</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ordre</label>
+                            <input type="number" name="order" class="input" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Code du test (Python)</label>
+                            <textarea name="code_snippet" class="input textarea" rows="6" placeholder="exec(user_code)\nassert result == expected, 'Message d\'erreur'" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Timeout (ms)</label>
+                            <input type="number" name="timeout_ms" class="input" value="5000" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Créer le Test
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="login_title">🚀 Connexion</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="loginStep1">
+                    <p style="font-weight: 600;" data-i18n="login_subtitle">Entre ton email pour recevoir un lien magique!</p>
+                    <input type="email" id="emailInput" placeholder="ton@email.com" class="input" />
+                    <button id="sendMagicLink" class="btn btn-primary btn-block">
+                        <i class="fas fa-paper-plane"></i> <span data-i18n="login_send">Envoyer le lien!</span>
+                    </button>
+                </div>
+                <div id="loginStep2" style="display: none;">
+                    <p style="font-weight: 600;" data-i18n="login_sent">Lien envoyé! En mode dev, utilise le token ci-dessous:</p>
+                    <input type="text" id="tokenInput" placeholder="Token" class="input" readonly />
+                    <button id="verifyToken" class="btn btn-primary btn-block">
+                        <i class="fas fa-key"></i> <span data-i18n="login_connect">Se connecter!</span>
+                    </button>
+                </div>
+                <div id="loginSuccess" style="display: none;">
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <p style="font-size: 1.5rem; font-weight: 900;" data-i18n="login_success">BOOM! Connecté! 🎉</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/runner.js"></script>
+    <script src="js/editor.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

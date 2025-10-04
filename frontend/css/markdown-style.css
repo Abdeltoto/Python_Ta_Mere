@@ -1,0 +1,403 @@
+/* ========================================
+   MARKDOWN CONTENT - CRUNCHY & PUNCHY! 🐍💥
+   ======================================== */
+
+.markdown-content {
+    line-height: 1.9;
+    color: var(--text-main);
+    font-size: 1.1rem;
+}
+
+/* Titres - EPIC Style */
+.markdown-content h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 2rem 0 1.5rem 0;
+    background: linear-gradient(45deg, var(--python-blue), var(--primary), var(--danger));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+    position: relative;
+    padding-bottom: 1rem;
+    border-bottom: 5px solid var(--python-yellow);
+    animation: slideInLeft 0.5s ease-out;
+}
+
+.markdown-content h1::before {
+    content: '🐍 ';
+    animation: bounce 2s infinite;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.markdown-content h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin: 2rem 0 1rem 0;
+    color: var(--primary);
+    position: relative;
+    padding-left: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.markdown-content h2::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: var(--python-yellow);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.markdown-content h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 1.5rem 0 1rem 0;
+    color: var(--secondary);
+    border-left: 5px solid var(--primary);
+    padding-left: 1rem;
+    background: linear-gradient(90deg, rgba(255, 107, 107, 0.1), transparent);
+    padding: 0.75rem 0 0.75rem 1rem;
+    border-radius: 0 15px 15px 0;
+}
+
+/* Paragraphes - Plus lisibles */
+.markdown-content p {
+    margin: 1.2rem 0;
+    font-weight: 500;
+    line-height: 1.9;
+}
+
+.markdown-content strong {
+    font-weight: 900;
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+}
+
+.markdown-content em {
+    color: var(--secondary);
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* Listes - Style Gaming */
+.markdown-content ul,
+.markdown-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.markdown-content li {
+    margin: 0.8rem 0;
+    font-weight: 600;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.markdown-content ul li::marker {
+    content: '🔥 ';
+    font-size: 1.2em;
+}
+
+.markdown-content ol li::marker {
+    font-weight: 900;
+    color: var(--primary);
+}
+
+/* Code Blocks - Matrix Style Enhanced */
+.markdown-content pre {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #00ff00;
+    padding: 1.5rem;
+    border-radius: 20px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 3px solid var(--python-yellow);
+    box-shadow: 
+        0 0 20px rgba(255, 212, 59, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.markdown-content pre:hover {
+    transform: scale(1.01);
+    box-shadow: 
+        0 0 30px rgba(255, 212, 59, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.markdown-content pre::before {
+    content: '💻 CODE';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: linear-gradient(45deg, var(--python-blue), var(--primary));
+    color: white;
+    padding: 0.3rem 1rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Inline Code - Punchy */
+.markdown-content code {
+    background: linear-gradient(135deg, rgba(48, 105, 152, 0.2), rgba(255, 107, 107, 0.15));
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.95em;
+    color: var(--python-blue);
+    font-weight: 800;
+    border: 2px solid rgba(48, 105, 152, 0.3);
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.markdown-content code:hover {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(48, 105, 152, 0.2));
+    transform: scale(1.05);
+    border-color: var(--primary);
+}
+
+.markdown-content pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: #00ff00;
+    font-weight: normal;
+    display: block;
+}
+
+/* Blockquotes - Citation Style */
+.markdown-content blockquote {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(76, 236, 196, 0.1));
+    border-left: 8px solid var(--primary);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    border-radius: 0 20px 20px 0;
+    font-style: italic;
+    font-weight: 700;
+    color: var(--text-main);
+    position: relative;
+    box-shadow: var(--shadow);
+}
+
+.markdown-content blockquote::before {
+    content: '💡';
+    font-size: 2rem;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--bg-card);
+    padding: 0.5rem;
+    border-radius: 50%;
+}
+
+/* Tables - Gaming Style */
+.markdown-content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 2rem 0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.markdown-content th {
+    background: linear-gradient(135deg, var(--python-blue), var(--primary));
+    color: white;
+    padding: 1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+}
+
+.markdown-content td {
+    padding: 1rem;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg-card);
+    font-weight: 600;
+}
+
+.markdown-content tr:hover td {
+    background: rgba(255, 107, 107, 0.1);
+    transform: scale(1.01);
+}
+
+/* Links - Punchy Style */
+.markdown-content a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 800;
+    position: relative;
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.markdown-content a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--danger));
+    transition: width 0.3s;
+}
+
+.markdown-content a:hover {
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.markdown-content a:hover::after {
+    width: 100%;
+}
+
+/* Horizontal Rule - Style Epic */
+.markdown-content hr {
+    border: none;
+    height: 5px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--python-yellow), 
+        var(--primary), 
+        var(--python-yellow), 
+        transparent
+    );
+    margin: 3rem 0;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 212, 59, 0.5);
+}
+
+/* Images - Gaming Frame */
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 5px solid var(--python-yellow);
+    box-shadow: var(--shadow-lg);
+    margin: 2rem 0;
+    transition: all 0.3s;
+}
+
+.markdown-content img:hover {
+    transform: scale(1.02) rotate(-1deg);
+    box-shadow: 0 0 30px rgba(255, 212, 59, 0.5);
+}
+
+/* Badges/Tags Custom */
+.markdown-content .badge,
+.markdown-content .tag {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--primary), var(--danger));
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0.2rem;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+}
+
+.markdown-content .badge:hover,
+.markdown-content .tag:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--neon-glow);
+}
+
+/* Note/Warning Boxes - Colorful */
+.markdown-content .note,
+.markdown-content .info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(76, 236, 196, 0.1));
+    border-left: 8px solid var(--secondary);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 15px 15px 0;
+    font-weight: 600;
+}
+
+.markdown-content .warning,
+.markdown-content .danger {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(255, 107, 107, 0.1));
+    border-left: 8px solid var(--warning);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 15px 15px 0;
+    font-weight: 600;
+}
+
+.markdown-content .success,
+.markdown-content .tip {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(76, 236, 196, 0.1));
+    border-left: 8px solid var(--success);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 15px 15px 0;
+    font-weight: 600;
+}
+
+/* Animations pour les éléments */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content p,
+.markdown-content pre,
+.markdown-content ul,
+.markdown-content ol {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll Smooth Animation */
+.markdown-content {
+    scroll-behavior: smooth;
+}
+
+/* Easter Eggs - Python Emojis */
+.markdown-content h1::after {
+    content: '💥';
+    margin-left: 1rem;
+    animation: bounce 2s infinite;
+}
+
+.markdown-content h2::after {
+    content: '🔥';
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+}
+
